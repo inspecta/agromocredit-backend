@@ -45,6 +45,11 @@ public class TransactionService {
             } else {
                 throw new IllegalArgumentException("Insufficient balance for withdrawal.");
             }
+        } else if ("Make Payment".equals(transaction.getTransactionType())) {
+            if (currentBalance >= transactionAmount) {
+                Double newBalance = currentBalance - transactionAmount;
+                user.setBalance(newBalance);
+            }
         } else {
             throw new IllegalArgumentException("Invalid transaction type.");
         }
