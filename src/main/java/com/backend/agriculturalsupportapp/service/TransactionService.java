@@ -1,12 +1,14 @@
 package com.backend.agriculturalsupportapp.service;
 
 import com.backend.agriculturalsupportapp.model.Transaction;
+import com.backend.agriculturalsupportapp.model.TransactionType;
 import com.backend.agriculturalsupportapp.model.User;
 import com.backend.agriculturalsupportapp.repository.TransactionRepository;
 import com.backend.agriculturalsupportapp.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,17 +37,17 @@ public class TransactionService {
         Double currentBalance = user.getBalance();
         Double transactionAmount = transaction.getAmount();
 
-        if("Request Payment".equals(transaction.getTransactionType())) {
+        if("REQUEST_PAYMENT".equals(transaction.getTransactionType())) {
             Double newBalance = currentBalance + transactionAmount;
             user.setBalance(newBalance);
-        } else if ("Withdraw".equals(transaction.getTransactionType())) {
+        } else if ("WITHDRAW".equals(transaction.getTransactionType())) {
             if (currentBalance >= transactionAmount) {
                 Double newBalance = currentBalance - transactionAmount;
                 user.setBalance(newBalance);
             } else {
                 throw new IllegalArgumentException("Insufficient balance for withdrawal.");
             }
-        } else if ("Make Payment".equals(transaction.getTransactionType())) {
+        } else if ("MAKE_PAYMENT".equals(transaction.getTransactionType())) {
             if (currentBalance >= transactionAmount) {
                 Double newBalance = currentBalance - transactionAmount;
                 user.setBalance(newBalance);
@@ -85,8 +87,16 @@ public class TransactionService {
      * @return List of user's transactions
      * Formart - Transaction Object
      */
-    public List<Transaction> getUserTransactions(Long userId) {
-        return transactionRepository.findByUserId(userId);
+    public List<Transaction> getUserTransactionsByType(Long userId, TransactionType transactionType) {
+        List<Transaction> allTransactions = transactionRepository.findByUserId(userId);
+
+        List<Transaction> filteredTransactions = new ArrayList<>();
+        for (Transaction transaction : allTransactions) {
+            if (transaction.getTransactionType().equals(transactionType.name())) {
+                filteredTransactions.add(transaction);
+            }
+        }
+        return filteredTransactions;
     }
 
     /**
@@ -99,11 +109,11 @@ public class TransactionService {
         double creditScore = 0;
         double balance = user.getBalance();
 
-        if (balance >= 1000.0) {
+        if (balance >= 100000.0) {
             creditScore += 3;
-        } else if (balance >= 500.0) {
+        } else if (balance >= 50000.0) {
             creditScore += 2;
-        } else if (balance >= 100.0) {
+        } else if (balance >= 10000.0) {
             creditScore += 1;
         }
 
