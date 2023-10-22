@@ -1,6 +1,7 @@
 package com.backend.agriculturalsupportapp.controller;
 
 import com.backend.agriculturalsupportapp.model.Transaction;
+import com.backend.agriculturalsupportapp.model.TransactionType;
 import com.backend.agriculturalsupportapp.model.User;
 import com.backend.agriculturalsupportapp.repository.TransactionRepository;
 import com.backend.agriculturalsupportapp.repository.UserRepository;
@@ -31,9 +32,19 @@ public class TransactionController {
         return transactionService.addTransaction(transaction, userId);
     }
 
-    @GetMapping("/transactions/{userId}")
-    public List<Transaction> userTransactions(@PathVariable Long userId) {
-        return transactionService.getUserTransactions(userId);
+    @GetMapping("/request-payment/{userId}")
+    public List<Transaction> getRequestPaymentTransactions(@PathVariable Long userId) {
+        return transactionService.getUserTransactionsByType(userId, TransactionType.REQUEST_PAYMENT);
+    }
+
+    @GetMapping("/withdraw/{userId}")
+    public List<Transaction> getWithdrawTransactions(@PathVariable Long userId) {
+        return transactionService.getUserTransactionsByType(userId, TransactionType.WITHDRAW);
+    }
+
+    @GetMapping("/make-payment/{userId}")
+    public List<Transaction> getPaymentTransactions(@PathVariable Long userId) {
+        return transactionService.getUserTransactionsByType(userId, TransactionType.MAKE_PAYMENT);
     }
 
     @GetMapping("/calculate-credit-score/{userId}")
