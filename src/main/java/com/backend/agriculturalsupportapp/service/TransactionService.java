@@ -67,7 +67,7 @@ public class TransactionService {
      * @return Total amount received from payments
      */
     public Double getTotalEarned(User user) {
-        List<Transaction> requestPaymentTransactions = transactionRepository.findByUserAndTransactionType(user, "Request Payment");
+        List<Transaction> requestPaymentTransactions = transactionRepository.findByUserAndTransactionType(user, "REQUEST_PAYMENT");
         return requestPaymentTransactions.stream().mapToDouble(Transaction::getAmount).sum();
     }
 
@@ -77,7 +77,7 @@ public class TransactionService {
      * @return Total amount in Withdraws
      */
     public Double getTotalCredit(User user) {
-        List<Transaction> withdrawTransactions = transactionRepository.findByUserAndTransactionType(user, "Withdraw");
+        List<Transaction> withdrawTransactions = transactionRepository.findByUserAndTransactionType(user, "WITHDRAW");
         return withdrawTransactions.stream().mapToDouble(Transaction::getAmount).sum();
     }
 
