@@ -117,13 +117,16 @@ public class TransactionService {
             creditScore += 1;
         }
 
-        int numberOfTransactions = transactions.size();
-        if (numberOfTransactions >= 5) {
-            creditScore += 3;
-        } else if (numberOfTransactions >= 3) {
-            creditScore += 2;
-        } else if (numberOfTransactions >= 1) {
-            creditScore += 1;
+        for (Transaction transaction : transactions) {
+            TransactionType transactionType = TransactionType.valueOf(transaction.getTransactionType());
+
+            if (transactionType == TransactionType.REQUEST_PAYMENT) {
+                creditScore += 0.10 * 10;
+            } else if (transactionType == TransactionType.WITHDRAW) {
+                creditScore += 0.03 * 10;
+            } else if (transactionType == TransactionType.MAKE_PAYMENT) {
+                creditScore += 0.05 * 10;
+            }
         }
 
         creditScore = Math.min(10, Math.max(0, creditScore));
