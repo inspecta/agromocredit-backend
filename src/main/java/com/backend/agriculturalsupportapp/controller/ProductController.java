@@ -3,6 +3,7 @@ package com.backend.agriculturalsupportapp.controller;
 import com.backend.agriculturalsupportapp.model.Product;
 import com.backend.agriculturalsupportapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +39,11 @@ public class ProductController {
     @PostMapping("/add-product")
     public Product addProduct(@RequestBody Product product) {
         return productService.addProduct(product);
+    }
+
+    @DeleteMapping("/delete-product/{productId}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
+        productService.deleteProductById(productId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

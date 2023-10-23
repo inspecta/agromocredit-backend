@@ -19,4 +19,5 @@ public class Product {
     private String supplierNumber;
     private String category;
     private String image;
+    private String supplierName;
 }
