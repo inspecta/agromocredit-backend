@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -34,6 +36,14 @@ public class Loan {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime created_at;
+
+    @PrePersist
+    private void onCreate() {
+        created_at = LocalDateTime.now();
+    }
 
     @ManyToOne
     @JoinColumn(name = "loan_provider_id")
