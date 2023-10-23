@@ -105,33 +105,33 @@ public class TransactionService {
      * @param transactions
      * @return
      */
-    public int calculateCreditScore(User user, List<Transaction> transactions) {
+    public Double calculateCreditScore(User user, List<Transaction> transactions) {
         double creditScore = 0;
         double balance = user.getBalance();
 
         if (balance >= 100000.0) {
-            creditScore += 3;
+            creditScore += 3.3;
         } else if (balance >= 50000.0) {
-            creditScore += 2;
+            creditScore += 2.2;
         } else if (balance >= 10000.0) {
-            creditScore += 1;
+            creditScore += 1.1;
         }
 
         for (Transaction transaction : transactions) {
             TransactionType transactionType = TransactionType.valueOf(transaction.getTransactionType());
 
             if (transactionType == TransactionType.REQUEST_PAYMENT) {
-                creditScore += 0.10 * 10;
+                creditScore += 0.05 * 10;
             } else if (transactionType == TransactionType.WITHDRAW) {
                 creditScore += 0.03 * 10;
             } else if (transactionType == TransactionType.MAKE_PAYMENT) {
-                creditScore += 0.05 * 10;
+                creditScore += 0.02 * 10;
             }
         }
 
         creditScore = Math.min(10, Math.max(0, creditScore));
 
-        return (int) creditScore;
+        return Math.round(creditScore * 10.0) / 10.0;
     }
 
 }

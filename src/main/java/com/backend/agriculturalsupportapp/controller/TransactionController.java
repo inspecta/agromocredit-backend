@@ -59,7 +59,7 @@ public class TransactionController {
         User user = userOptional.get();
 
         if (user != null && !transactions.isEmpty()) {
-            int creditScore = transactionService.calculateCreditScore(user, transactions);
+            Double creditScore = transactionService.calculateCreditScore(user, transactions);
             return ResponseEntity.status(HttpStatus.OK).body(creditScore);
         }
 
