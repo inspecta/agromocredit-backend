@@ -1,2 +1,2 @@
-package com.backend.agriculturalsupportapp.model;public class LoanAndProviderDetails {
+package com.backend.agriculturalsupportapp.model;public interface LoanAndProviderDetails {
 }
