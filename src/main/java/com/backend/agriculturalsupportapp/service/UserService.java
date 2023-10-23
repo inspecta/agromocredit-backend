@@ -53,4 +53,5 @@ public class UserService {
         Double totalAmount = transactionRepository.getTotalAmountByUserId(userId);
         return totalAmount != null ? totalAmount : 0.0;
     }
+
 }
