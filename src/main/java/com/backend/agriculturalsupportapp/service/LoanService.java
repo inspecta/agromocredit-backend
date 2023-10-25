@@ -58,6 +58,7 @@ public class LoanService {
     }
 
     public List<Loan> getUserLoans(Long userId) {
+        System.out.println(loanRepository.findByUserId(userId));
         return loanRepository.findByUserId(userId);
     }
 
