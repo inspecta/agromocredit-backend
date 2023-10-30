@@ -54,4 +54,15 @@ public class UserService {
         return totalAmount != null ? totalAmount : 0.0;
     }
 
+    public String deleteUser(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            userRepository.delete(user);
+            return "User deleted";
+        }
+
+        return "User not found";
+    }
+
 }

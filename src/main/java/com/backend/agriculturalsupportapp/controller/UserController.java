@@ -77,4 +77,10 @@ public class UserController {
         return transactionService.getTotalCredit(user);
     }
 
+    @DeleteMapping("/delete-user/{userId}")
+    public String deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return "User deleted";
+    }
+
 }
