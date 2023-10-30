@@ -31,8 +31,16 @@ public class UserController {
     }
 
     @PostMapping("/register-user")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
-        return userService.registerUser(user);
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        ResponseEntity<User> response = (ResponseEntity<User>) userService.registerUser(user);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            // Registration was successful, return the user object.
+            return ResponseEntity.ok(response.getBody());
+        } else {
+            // Registration failed, return the error message.
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+        }
     }
 
     @PostMapping("/login-user")

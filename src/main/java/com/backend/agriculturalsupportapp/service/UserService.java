@@ -21,13 +21,13 @@ public class UserService {
         this.transactionRepository = transactionRepository;
     }
 
-    public ResponseEntity<String> registerUser(User user) {
+    public ResponseEntity<?> registerUser(User user) {
         /**
          *  Check if the phone number is already registered
-         * */
+         */
         Optional<User> userOptional = userRepository.findUserByPhoneNumber(user.getPhoneNumber());
 
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             String errorMessage = "Sorry. You are already registered.";
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         }
@@ -36,14 +36,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
 
-        if(savedUser != null) {
-            String successMessage = "User registered successfully";
-            return ResponseEntity.status(HttpStatus.CREATED).body(successMessage);
+        if (savedUser != null) {
+            savedUser.setPassword(null);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } else {
             String errorMessage = "Could not register user.";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
+
 
     public Optional<User> getUserByPhoneNumber(String phoneNumber) {
         return userRepository.findUserByPhoneNumber(phoneNumber);
