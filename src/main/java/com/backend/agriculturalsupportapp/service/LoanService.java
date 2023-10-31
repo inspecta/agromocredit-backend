@@ -62,14 +62,24 @@ public class LoanService {
         return loanRepository.findByUserId(userId);
     }
 
+    /***
+     * Get the current loan amount for a user
+     * Subtract what the user has paid
+     * Add what the user has taken
+     * @param userId
+     * @return
+     */
     public Double calculateTotalLoansForUser(Long userId) {
         List<Loan> userLoans = loanRepository.findByUserId(userId);
         Double totalLoans = 0.0;
 
         for (Loan loan : userLoans) {
-            totalLoans += loan.getAmount();
+            if ("GET_LOAN".equals(loan.getType())) {
+                totalLoans = loan.getAmount();
+            } else if ("PAY_LOAN".equals(loan.getType())) {
+                totalLoans -= loan.getAmount();
+            }
         }
-
         return totalLoans;
     }
 

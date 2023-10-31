@@ -110,11 +110,11 @@ public class TransactionService {
         double balance = user.getBalance();
 
         if (balance >= 100000.0) {
-            creditScore += 3.3;
+            creditScore += 1.9;
         } else if (balance >= 50000.0) {
-            creditScore += 2.2;
+            creditScore += 1.0;
         } else if (balance >= 10000.0) {
-            creditScore += 1.1;
+            creditScore += 0.4;
         }
 
         for (Transaction transaction : transactions) {
