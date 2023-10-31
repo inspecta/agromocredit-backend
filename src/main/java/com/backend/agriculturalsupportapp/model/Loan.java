@@ -50,4 +50,6 @@ public class Loan {
     @JsonProperty("loan_provider_id")
     private LoanProvider loanProvider;
 
+    @Column(name = "type")
+    private String type = "GET_LOAN";
 }
