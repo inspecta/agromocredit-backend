@@ -33,7 +33,7 @@ public class Loan {
     /**
      * The user who took out the loan
      */
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
     private User user;
 
