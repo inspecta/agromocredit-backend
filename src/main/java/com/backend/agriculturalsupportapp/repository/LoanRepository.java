@@ -14,7 +14,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 
     @Query(value = "SELECT (p.name, l.amount, l.created_at) FROM\n" +
             "loans l JOIN loan_provider p ON l.loan_provider_id = p.id\n" +
-            "WHERE l.user_id = :userId", nativeQuery = true)
+            "WHERE l.user_id = :userId AND l.type = 'GET_LOAN'", nativeQuery = true)
     List<LoanAndProviderDetails> findAmountLoanProviderNameAndCreatedAtByUserId(@Param("userId") Long userId);
 
     List<Loan> findByUserId(Long userId);
