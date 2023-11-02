@@ -34,7 +34,11 @@ public class LoanService {
 
             loan.setUser(user);
 
-            user.setBalance(userBalance + loanAmount);
+            if ("PAY_LOAN".equals(loan.getType())) {
+                user.setBalance(userBalance - loanAmount);
+            } else if ("GET_LOAN".equals(loan.getType())) {
+                user.setBalance(userBalance + loanAmount);
+            }
 
             // Add 8% loan percentage
             loan.setAmount(loanAmount * 1.08);
